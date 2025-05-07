@@ -25,7 +25,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 
-// Improved schema with additional validation rules
+//Todo: Improve schema with additional validation rules for password
 const formSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
   password: z
@@ -34,8 +34,10 @@ const formSchema = z.object({
     .regex(/[a-zA-Z0-9]/, { message: 'Password must be alphanumeric' })
 });
 
+type FormSchema = z.infer<typeof formSchema>;
+
 function LoginForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
@@ -43,7 +45,7 @@ function LoginForm() {
     }
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormSchema) {
     try {
       // Assuming an async login function
       console.log(values);
@@ -60,7 +62,7 @@ function LoginForm() {
 
   return (
     <div className='flex flex-col min-h-[50vh] h-full w-full items-center justify-center px-4'>
-      <Card className='mx-auto max-w-sm'>
+      <Card className='mx-auto w-sm'>
         <CardHeader>
           <CardTitle className='text-2xl'>Login</CardTitle>
           <CardDescription>
@@ -71,6 +73,7 @@ function LoginForm() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
               <div className='grid gap-4'>
+                {/* Email Field */}
                 <FormField
                   control={form.control}
                   name='email'
@@ -90,6 +93,8 @@ function LoginForm() {
                     </FormItem>
                   )}
                 />
+
+                {/* Password Field */}
                 <FormField
                   control={form.control}
                   name='password'
@@ -98,7 +103,7 @@ function LoginForm() {
                       <div className='flex justify-between items-center'>
                         <FormLabel htmlFor='password'>Password</FormLabel>
                         <Link
-                          to='/'
+                          to='/forgot-password'
                           className='ml-auto inline-block text-sm underline'
                         >
                           Forgot your password?
@@ -119,15 +124,12 @@ function LoginForm() {
                 <Button type='submit' className='w-full'>
                   Login
                 </Button>
-                <Button variant='outline' className='w-full'>
-                  Login with Google
-                </Button>
               </div>
             </form>
           </Form>
           <div className='mt-4 text-center text-sm'>
             Don&apos;t have an account?{' '}
-            <Link to='/' className='underline'>
+            <Link to='/signup' className='underline'>
               Sign up
             </Link>
           </div>
