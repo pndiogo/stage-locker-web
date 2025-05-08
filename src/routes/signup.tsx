@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { RegisterForm } from '@/components/authentication/RegisterForm';
+import { SignUpForm } from '@/components/authentication/RegisterForm';
 
 export const Route = createFileRoute('/signup')({
   component: SignupPage
@@ -8,7 +8,7 @@ export const Route = createFileRoute('/signup')({
 function SignupPage() {
   return (
     <div>
-      <RegisterForm />
+      <SignUpForm />
     </div>
   );
 }

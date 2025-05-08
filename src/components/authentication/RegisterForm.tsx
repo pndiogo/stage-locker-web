@@ -42,7 +42,7 @@ const formSchema = z
 
 type FormSchema = z.infer<typeof formSchema>;
 
-function RegisterForm() {
+function SignUpForm() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,7 +71,7 @@ function RegisterForm() {
     <div className='flex flex-col min-h-[50vh] h-full w-full items-center justify-center px-4'>
       <Card className='mx-auto w-sm'>
         <CardHeader>
-          <CardTitle className='text-2xl'>Register</CardTitle>
+          <CardTitle className='text-2xl'>Create account</CardTitle>
           <CardDescription>
             Create a new account by filling out the form below.
           </CardDescription>
@@ -144,7 +144,7 @@ function RegisterForm() {
                 />
 
                 <Button type='submit' className='w-full'>
-                  Register
+                  Create account
                 </Button>
               </div>
             </form>
@@ -161,4 +161,4 @@ function RegisterForm() {
   );
 }
 
-export { RegisterForm };
+export { SignUpForm };

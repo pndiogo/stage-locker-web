@@ -101,7 +101,7 @@ function ForgotPasswordForm() {
             </Link>
           </div>
           <div className='mt-4 text-center text-sm'>
-            Password found?{' '}
+            Password not found?{' '}
             <Link to='/login' className='underline'>
               Login
             </Link>
