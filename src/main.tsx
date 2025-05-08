@@ -7,6 +7,7 @@ import * as TanstackQuery from './integrations/tanstack-query/root-provider';
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 
+import './i18n';
 import './styles.css';
 import reportWebVitals from './reportWebVitals.ts';
 

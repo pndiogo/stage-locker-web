@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 import {
   Form,
@@ -24,18 +25,24 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
-const formSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address' })
-});
-
-type FormSchema = z.infer<typeof formSchema>;
-
 function ForgotPasswordForm() {
+  const { t, i18n } = useTranslation();
+
+  const formSchema = z.object({
+    email: z.string().email({ message: t('forgotPasswordForm.email.invalid') })
+  });
+
+  type FormSchema = z.infer<typeof formSchema>;
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: ''
     }
+  });
+
+  i18n.on('languageChanged', () => {
+    form.reset();
   });
 
   async function onSubmit(values: FormSchema) {
@@ -49,7 +56,7 @@ function ForgotPasswordForm() {
       );
     } catch (error) {
       console.error('Form submission error', error);
-      toast.error('Failed to submit the form. Please try again.');
+      toast.error(t('forgotPasswordForm.error.generic'));
     }
   }
 
@@ -57,10 +64,11 @@ function ForgotPasswordForm() {
     <div className='flex flex-col min-h-[50vh] h-full w-full items-center justify-center px-4'>
       <Card className='mx-auto w-sm'>
         <CardHeader>
-          <CardTitle className='text-2xl'>Forgot Password</CardTitle>
+          <CardTitle className='text-2xl'>
+            {t('forgotPasswordForm.title')}
+          </CardTitle>
           <CardDescription>
-            Enter your email address and we will send you a link to reset your
-            password.
+            {t('forgotPasswordForm.description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -73,11 +81,15 @@ function ForgotPasswordForm() {
                   name='email'
                   render={({ field }) => (
                     <FormItem className='grid gap-2'>
-                      <FormLabel htmlFor='email'>Email</FormLabel>
+                      <FormLabel htmlFor='email'>
+                        {t('forgotPasswordForm.email.label')}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           id='email'
-                          placeholder='johndoe@mail.com'
+                          placeholder={t(
+                            'forgotPasswordForm.email.placeholder'
+                          )}
                           type='email'
                           autoComplete='email'
                           {...field}
@@ -89,21 +101,21 @@ function ForgotPasswordForm() {
                 />
 
                 <Button type='submit' className='w-full'>
-                  Send
+                  {t('forgotPasswordForm.submit')}
                 </Button>
               </div>
             </form>
           </Form>
           <div className='mt-4 text-center text-sm'>
-            Don&apos;t have an account?{' '}
+            {t('forgotPasswordForm.signupPrompt')}{' '}
             <Link to='/signup' className='underline'>
-              Sign up
+              {t('forgotPasswordForm.signupLink')}
             </Link>
           </div>
           <div className='mt-4 text-center text-sm'>
-            Password not found?{' '}
+            {t('forgotPasswordForm.loginPrompt')}{' '}
             <Link to='/login' className='underline'>
-              Login
+              {t('forgotPasswordForm.loginLink')}
             </Link>
           </div>
         </CardContent>

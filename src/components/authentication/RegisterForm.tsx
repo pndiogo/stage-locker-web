@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 import {
   Form,
@@ -26,23 +27,27 @@ import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 
 //Todo: Improve schema with additional validation rules for password
-const formSchema = z
-  .object({
-    email: z.string().email({ message: 'Invalid email address' }),
-    password: z
-      .string()
-      .min(6, { message: 'Password must be at least 6 characters long' })
-      .regex(/[a-zA-Z0-9]/, { message: 'Password must be alphanumeric' }),
-    confirmPassword: z.string()
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Passwords do not match'
-  });
-
-type FormSchema = z.infer<typeof formSchema>;
-
 function SignUpForm() {
+  const { t, i18n } = useTranslation();
+
+  const formSchema = z
+    .object({
+      email: z.string().email({ message: t('registerForm.email.invalid') }),
+      password: z
+        .string()
+        .min(6, { message: t('registerForm.password.min') })
+        .regex(/[a-zA-Z0-9]/, {
+          message: t('registerForm.password.alphanumeric')
+        }),
+      confirmPassword: z.string()
+    })
+    .refine(data => data.password === data.confirmPassword, {
+      path: ['confirmPassword'],
+      message: t('registerForm.confirmPassword.match')
+    });
+
+  type FormSchema = z.infer<typeof formSchema>;
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,6 +55,10 @@ function SignUpForm() {
       password: '',
       confirmPassword: ''
     }
+  });
+
+  i18n.on('languageChanged', () => {
+    form.reset();
   });
 
   async function onSubmit(values: FormSchema) {
@@ -63,7 +72,7 @@ function SignUpForm() {
       );
     } catch (error) {
       console.error('Form submission error', error);
-      toast.error('Failed to submit the form. Please try again.');
+      toast.error(t('registerForm.error.generic'));
     }
   }
 
@@ -71,10 +80,8 @@ function SignUpForm() {
     <div className='flex flex-col min-h-[50vh] h-full w-full items-center justify-center px-4'>
       <Card className='mx-auto w-sm'>
         <CardHeader>
-          <CardTitle className='text-2xl'>Create account</CardTitle>
-          <CardDescription>
-            Create a new account by filling out the form below.
-          </CardDescription>
+          <CardTitle className='text-2xl'>{t('registerForm.title')}</CardTitle>
+          <CardDescription>{t('registerForm.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -86,11 +93,13 @@ function SignUpForm() {
                   name='email'
                   render={({ field }) => (
                     <FormItem className='grid gap-2'>
-                      <FormLabel htmlFor='email'>Email</FormLabel>
+                      <FormLabel htmlFor='email'>
+                        {t('registerForm.email.label')}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           id='email'
-                          placeholder='johndoe@mail.com'
+                          placeholder={t('registerForm.email.placeholder')}
                           type='email'
                           autoComplete='email'
                           {...field}
@@ -107,11 +116,13 @@ function SignUpForm() {
                   name='password'
                   render={({ field }) => (
                     <FormItem className='grid gap-2'>
-                      <FormLabel htmlFor='password'>Password</FormLabel>
+                      <FormLabel htmlFor='password'>
+                        {t('registerForm.password.label')}
+                      </FormLabel>
                       <FormControl>
                         <PasswordInput
                           id='password'
-                          placeholder='******'
+                          placeholder={t('registerForm.password.placeholder')}
                           autoComplete='new-password'
                           {...field}
                         />
@@ -128,12 +139,14 @@ function SignUpForm() {
                   render={({ field }) => (
                     <FormItem className='grid gap-2'>
                       <FormLabel htmlFor='confirmPassword'>
-                        Confirm Password
+                        {t('registerForm.confirmPassword.label')}
                       </FormLabel>
                       <FormControl>
                         <PasswordInput
                           id='confirmPassword'
-                          placeholder='******'
+                          placeholder={t(
+                            'registerForm.confirmPassword.placeholder'
+                          )}
                           autoComplete='new-password'
                           {...field}
                         />
@@ -144,15 +157,15 @@ function SignUpForm() {
                 />
 
                 <Button type='submit' className='w-full'>
-                  Create account
+                  {t('registerForm.submit')}
                 </Button>
               </div>
             </form>
           </Form>
           <div className='mt-4 text-center text-sm'>
-            Already have an account?{' '}
+            {t('registerForm.loginPrompt')}{' '}
             <Link to='/login' className='underline'>
-              Login
+              {t('registerForm.loginLink')}
             </Link>
           </div>
         </CardContent>

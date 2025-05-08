@@ -1,7 +1,10 @@
 import { Link } from '@tanstack/react-router';
 import { Separator } from '@/components/ui/separator';
+import { useTranslation } from 'react-i18next';
 
 function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer>
       <Separator className='my-4' />
@@ -9,10 +12,10 @@ function Footer() {
       <div>
         <ul>
           <li>
-            <Link to='/login'>Login</Link>
+            <Link to='/login'>{t('common.login')}</Link>
           </li>
           <li>
-            <Link to='/signup'>Register</Link>
+            <Link to='/signup'>{t('common.register')}</Link>
           </li>
         </ul>
       </div>
