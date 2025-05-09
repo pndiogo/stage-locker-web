@@ -4,10 +4,15 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  @apply m-0;
+  @apply m-0 min-h-[100dvh];
   font-family: "Geist", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  @apply flex flex-col h-full min-h-[100dvh];
+
 }
 
 code {

@@ -68,7 +68,7 @@ function LoginForm() {
   }
 
   return (
-    <div className='flex flex-col min-h-[50vh] h-full w-full items-center justify-center px-4'>
+    <div className='flex min-h-[50vh] h-full w-full p-4'>
       <Card className='mx-auto w-sm'>
         <CardHeader>
           <CardTitle className='text-2xl'>{t('loginForm.title')}</CardTitle>

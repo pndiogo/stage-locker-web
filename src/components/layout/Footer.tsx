@@ -6,9 +6,8 @@ function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer>
+    <footer className='mt-auto'>
       <Separator className='my-4' />
-
       <div>
         <ul>
           <li>
