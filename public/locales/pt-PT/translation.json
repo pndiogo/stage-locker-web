@@ -36,6 +36,9 @@
     "signupLink": "Criar conta",
     "error": {
       "generic": "Erro ao enviar o formulário. Por favor, tente novamente."
+    },
+    "success": {
+      "generic": "Login com sucesso. A redirecionar..."
     }
   },
   "registerForm": {

@@ -36,6 +36,9 @@
     "signupLink": "Sign up",
     "error": {
       "generic": "Failed to submit the form. Please try again."
+    },
+    "success": {
+      "generic": "Login successful. Redirecting..."
     }
   },
   "registerForm": {

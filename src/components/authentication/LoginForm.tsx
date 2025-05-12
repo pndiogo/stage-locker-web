@@ -26,9 +26,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 
+import { useLogin } from '@/api/auth/hooks/useLogin';
+
 //Todo: Improve schema with additional validation rules for password
 function LoginForm() {
   const { t, i18n } = useTranslation();
+  const login = useLogin();
 
   const formSchema = z.object({
     email: z.string().email({ message: t('loginForm.email.invalid') }),
@@ -54,13 +57,19 @@ function LoginForm() {
 
   async function onSubmit(values: FormSchema) {
     try {
-      // Assuming an async login function
-      console.log(values);
-      toast(
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
+      const { doLogin, data, isPending } = login;
+      console.log('🚀 ~ onSubmit ~ isPending:', isPending);
+      console.log('🚀 ~ onSubmit ~ data:', data);
+      doLogin(values, {
+        onSuccess: () => {
+          console.log('Login successful');
+          toast.success(t('loginForm.success.generic'));
+        },
+        onError: (error: any) => {
+          console.error('Login error', error);
+          toast.error(t('loginForm.error.generic'));
+        }
+      });
     } catch (error) {
       console.error('Form submission error', error);
       toast.error(t('loginForm.error.generic'));
