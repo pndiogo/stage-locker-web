@@ -15,7 +15,7 @@ const LoginResponseSchema = z.object({
 export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 
 export async function login({ email, password }: LoginInput): Promise<LoginResponse> {
-  const response = await fetch(`${env.VITE_BACKEND_URL}/auth/login`, {
+  const response = await fetch(`${env.VITE_API_PATH}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

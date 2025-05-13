@@ -30,8 +30,8 @@
 import { z } from 'zod';
 
 const EnvSchema = z.object({
+  VITE_API_PATH: z.string(),
   VITE_LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]),
-  VITE_BACKEND_URL: z.string().url(),
 });
 
 const parsed = EnvSchema.safeParse(import.meta.env);
