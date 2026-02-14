@@ -29,9 +29,10 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootLayout,
   beforeLoad: async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    // const { data: { user } } = await supabase.auth.getUser();
+    const { data: { session } } = await supabase.auth.getSession();
     return {
-      isAuthenticated: !!user,
+      isAuthenticated: !!session,
     };
   },
   loader: async () => {

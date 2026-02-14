@@ -5,7 +5,6 @@ export const Routes = {
   FORGOT_PASSWORD: "/forgot-password",
   PROFILE: "/profile",
   ROOT: "/",
-  RESEND_VERIFICATION_EMAIL: "/resend-verification-email",
   UPDATE_PASSWORD: "/update-password",
 } as const;
 

@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +35,8 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       });
       if (error)
         throw error;
-      navigate({ to: Routes.DASHBOARD });
+      await router.invalidate();
+      await router.navigate({ to: Routes.DASHBOARD });
     }
     catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
