@@ -2,6 +2,8 @@ import { prettifyError, z } from "zod";
 
 const EnvSchema = z.object({
   VITE_TEST: z.string(),
+  VITE_SUPABASE_URL: z.url(),
+  VITE_SUPABASE_PUBLISHABLE_KEY: z.string().min(1),
 });
 
 const parsed = EnvSchema.safeParse(import.meta.env);

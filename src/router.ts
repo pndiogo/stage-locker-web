@@ -8,17 +8,10 @@ export const router = createRouter({
   routeTree,
   context: {
     ...getQueryClientContext(),
-    auth: undefined,
+    isAuthenticated: false,
   },
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
 });
-
-// Register the router instance for type safety
-declare module "@tanstack/react-router" {
-  type Register = {
-    router: typeof router;
-  };
-}

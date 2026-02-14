@@ -20,7 +20,8 @@
       "@/routes/*": ["./src/routes/*"],
       "@/components/*": ["./src/components/*"],
       "@/integrations/*": ["./src/integrations/*"],
-      "@/lib/*": ["./src/lib/*"]
+      "@/lib/*": ["./src/lib/*"],
+      "@/env": ["./src/env.ts"]
     },
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,

@@ -1,32 +1,23 @@
 import type { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
-  Link,
   Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+
 import TanstackQueryLayout from "@/integrations/tanstack-query/layout";
 import { generatePageMeta } from "@/lib/page-meta";
+import { createClient } from "@/lib/supabase/client";
 import i18n, { i18nInitPromise } from "@/src/i18n";
 
-type RouterContext = {
+export type RouterContext = {
   queryClient: QueryClient;
-  auth: undefined;
+  isAuthenticated: boolean;
 };
 
 function RootLayout() {
   return (
     <>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>
-        {" "}
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
-      <hr />
       <Outlet />
       <TanStackRouterDevtools />
       <TanstackQueryLayout />
@@ -36,6 +27,13 @@ function RootLayout() {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootLayout,
+  beforeLoad: async () => {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    return {
+      isAuthenticated: !!user,
+    };
+  },
   loader: async () => {
     await i18nInitPromise;
     return {
