@@ -1,7 +1,8 @@
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
-import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import react, { reactCompilerPreset } from '@vitejs/plugin-react'
+import babel from '@rolldown/plugin-babel'
 
 export default defineConfig({
   resolve: {
@@ -13,10 +14,7 @@ export default defineConfig({
       target: "react",
       autoCodeSplitting: true,
     }),
-    react({
-      babel: {
-        plugins: [["babel-plugin-react-compiler"]],
-      },
-    }),
+    react(),
+    babel({ presets: [reactCompilerPreset()] })
   ],
 });
